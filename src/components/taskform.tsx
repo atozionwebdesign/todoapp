@@ -3,7 +3,7 @@ import { updateTask, createTask } from "@/app/services/todos";
 import styles from "../app/page.module.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Form from "./reusable/Form";
+import Form from "./reusable/form";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 
