@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+
+  let baseURL = process.env.NEXT_PUBLIC_URL;
+  if(process.env.NODE_ENV === "production"){
+    baseURL = process.env.NEXT_PUBLIC_VERCEL_URL
+  }
+
 export async function getTasks(){
-    const res = await fetch(process.env.NEXT_PUBLIC_URL + '/api/todos', {method: 'GET'});
+    const res = await fetch(baseURL + '/api/todos', {method: 'GET'});
     const tasks = await res.json();
     const options: Intl.DateTimeFormatOptions = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'};
       tasks.map((task:any) => {
@@ -12,7 +18,7 @@ export async function getTasks(){
 }
 
 export async function getTaskById(id:number){
-    const res = await fetch(process.env.NEXT_PUBLIC_URL + '/api/todos?id=' + id, {method: 'GET'});
+    const res = await fetch(baseURL + '/api/todos?id=' + id, {method: 'GET'});
     const task = await res.json();
     const options: Intl.DateTimeFormatOptions = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'};
       task.map((task:any) => {
@@ -23,7 +29,7 @@ export async function getTaskById(id:number){
 }
 
   export async function updateTask(id:number, data:any){
-    const res = await fetch(process.env.NEXT_PUBLIC_URL + '/api/todos?id=' + id, {
+    const res = await fetch(baseURL + '/api/todos?id=' + id, {
       method: 'PUT',
       headers : { 
         'Accept': 'application/json',
@@ -40,7 +46,7 @@ export async function getTaskById(id:number){
   }
 
   export async function createTask(data:any){
-    const res = await fetch(process.env.NEXT_PUBLIC_URL + '/api/todos?', {
+    const res = await fetch(baseURL + '/api/todos?', {
       method: 'POST',
       headers : { 
         'Accept': 'application/json',
@@ -57,7 +63,7 @@ export async function getTaskById(id:number){
   }
 
   export async function deleteTask(id:number){
-    const res = await fetch(process.env.NEXT_PUBLIC_URL + '/api/todos?id=' + id, {method: 'DELETE'});
+    const res = await fetch(baseURL + '/api/todos?id=' + id, {method: 'DELETE'});
     
     if (!res.ok) {
       console.error('Failed to delete item', res);
