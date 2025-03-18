@@ -3,7 +3,7 @@
 import styles from "../app/page.module.css";
 import Form from "next/form";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faCalendarCheck, faCalendarWeek, faListCheck, faCalendarDays, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faCalendarCheck, faListCheck, faCalendarDays, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export default function LeftNav(props: any){
   
@@ -26,6 +26,9 @@ export default function LeftNav(props: any){
           <p>Acct message</p>
         </div>
       </div>
+      <div onClick={handleFilters} id="about" className="mb-2 filter-div clickable font-bold">
+        ABOUT THE APP
+      </div>
       <Form action="/search" className="mb-3 mt-3 grow flex">
         <button type="submit"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
         <input name="query" className="grow search" placeholder="Search"></input>
@@ -37,10 +40,6 @@ export default function LeftNav(props: any){
         <FontAwesomeIcon icon={faCalendarCheck}></FontAwesomeIcon>Today
         <span className="small-count"><sup>{count.today}</sup></span>
       </div>
-      {/* <div>
-        <FontAwesomeIcon icon={faCalendarWeek}></FontAwesomeIcon>Next 7 Days
-        <span className="small-count">Num</span>
-      </div> */}
       <div onClick={handleFilters} id="all" className={(filter == 'all') ? 'selected-filter clickable' : 'filter-div clickable'}>
         <FontAwesomeIcon icon={faListCheck}></FontAwesomeIcon>All My Tasks
         <span className="small-count"><sup>{count.all}</sup></span>
@@ -48,6 +47,7 @@ export default function LeftNav(props: any){
       <div className="mb-2 filter-div clickable">
         <FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon>View Calendar
       </div>
+      
     </div>
   )
 }

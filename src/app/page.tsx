@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { getTasks, getTaskById, deleteTask } from "./services/todos";
@@ -9,7 +10,7 @@ import TaskForm from "@/components/taskform";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Intro from "@/components/intro";
+import About from "@/components/about";
 
 export default function Home() {
   const [tasks, setTasks] = useState();
@@ -20,11 +21,11 @@ export default function Home() {
   const formattedDate = today.toLocaleDateString('en-US', optionsA);
   const optionsB: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'};
   const [count, setCount] = useState({all: null, today: null});
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [task, setTask] = useState({});
   const [formType, setFormType] = useState('update');
   const [calendarDate, setCalendarDate] = useState(new Date());
-  const [intro, setIntro] = useState(true);
+  
 
   useEffect(() => {
     getTasks().then(res => {
@@ -40,10 +41,9 @@ export default function Home() {
   };
 
   const closeModal = () => {
-    if(intro){
-      setIntro(false);
-    }
+    
     setIsModalOpen(false);
+    setFormType('update');
   };
 
   function setFilter(f?: any) {
@@ -58,19 +58,24 @@ export default function Home() {
   }
 
   const handleFilter = (filter: any) => {
+   
     if(filter == 'today'){
         const fT = todayTasks(tasks);
         setFilteredTasks(fT);
         
     } else if (filter == "all"){
         setFilteredTasks(tasks);
+
+    } else if (filter == 'about'){
+      setFormType('about');
+      setIsModalOpen(true);
     }
   }
 
   const handleTaskDiv = (id:any) => {
     getTaskById(id).then(res => {
       setTask(res[0]); 
-    }).then(res => openModal())
+    }).then(() => openModal())
   }
 
   const handleNewBtn = () => {
@@ -80,7 +85,7 @@ export default function Home() {
   }
 
   const handleDeleteBtn = (id:number) => {
-    deleteTask(id).then(res => getTasks()).then(t => {
+    deleteTask(id).then(() => getTasks()).then(t => {
       setFilteredTasks(t);
       const todTasks = todayTasks(t);
       setCount({all: t.length, today:todTasks.length})
@@ -99,11 +104,12 @@ export default function Home() {
             
               <Modal isOpen={isModalOpen} onClose={closeModal}>
                 {
-                  (intro)
-                    ? <Intro />
+                  formType == "about"
+                    ? <About />
                     : <TaskForm task = {task} formType={formType} onCancel={closeModal}/>
                 }
-               </Modal>
+                
+              </Modal>
             {
               (tasks && fV)
                 ? <Tasks today={formattedDate} tasks={filteredTasks} handleTaskDiv={handleTaskDiv} handleDeleteBtn = {handleDeleteBtn} />
@@ -114,7 +120,7 @@ export default function Home() {
             <div id="homeCalendar">
               <DatePicker
                 selected={calendarDate}
-                onChange={(date) => setCalendarDate(date)}
+                onChange={(date) => {if(date) setCalendarDate(date)}}
                 inline
               />
             </div>
