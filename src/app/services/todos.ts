@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
+  console.log(process.env.NODE_ENV, process.env.NEXT_PUBLIC_VERCEL_URL)
   let baseURL = process.env.NEXT_PUBLIC_URL;
   if(process.env.NODE_ENV === "production"){
     baseURL = process.env.NEXT_PUBLIC_VERCEL_URL
