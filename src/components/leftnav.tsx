@@ -10,7 +10,7 @@ export default function LeftNav(props: any){
   const count = props.count;
   const filter = props.filter;
 
-  const handleFilters = (e) => { 
+  const handleFilters = (e: any) => { 
     props.setFilter(e.target.id);
   }
 
